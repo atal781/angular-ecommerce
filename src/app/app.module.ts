@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import {HttpClientModule}  from  '@angular/common/http';
 import { ProductService } from './service/product.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
  
 @NgModule({
   declarations: [
@@ -12,7 +14,8 @@ import { ProductService } from './service/product.service';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
