@@ -5,7 +5,17 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import {HttpClientModule}  from  '@angular/common/http';
 import { ProductService } from './service/product.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {Routes , RouterModule  } from '@angular/router';
+// import {Routes} from "@angular/router";
 
+
+const routes : Routes = [
+  {path: "category/:id" , component : ProductListComponent},
+  {path: "category" , component : ProductListComponent},
+  {path: "products" , component: ProductListComponent},
+  {path: "", redirectTo: "/products", pathMatch: "full"},
+  {path: "**", redirectTo: "/products" , pathMatch: "full"}
+]
  
 @NgModule({
   declarations: [
@@ -15,8 +25,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FontAwesomeModule
-  ],
+    FontAwesomeModule,
+    RouterModule.forRoot(routes)
+    ],
   providers: [ProductService],
   bootstrap: [AppComponent]
 })
