@@ -11,10 +11,18 @@ import { ProductService } from 'src/app/service/product.service';
 export class ProductListComponent {
 
   currentCategoryId : number = 1;
+  previousCategoryId: number =1;
   currentCategoryName: string = "";
   searchMode : boolean = false;
 
+  thePageNumber : number= 1;
+  thePageSize: number = 10;
+  theTotalElements : number = 0;
+
+
+
   products: Product[] =[]; 
+ 
 
   constructor(private productService: ProductService,private activeRoute: ActivatedRoute) { }
 
@@ -66,9 +74,26 @@ handleListProduct() {
     this.currentCategoryName = 'Books';
   }
 
-  this.productService.getProductList(this.currentCategoryId).subscribe(
-    (data) => this.products = data );
+  // this.productService.getProductList(this.currentCategoryId).subscribe(
+  //   (data) => this.products = data );
+
+  if(this.previousCategoryId != this.currentCategoryId) {
+    this.thePageNumber =1;
+  }
+
+  this.previousCategoryId = this.currentCategoryId;
+
+    this.productService.getProductListPaginate(this.thePageNumber-1, this.thePageSize, this.currentCategoryId).subscribe(
+      (data) => {
+        this.thePageNumber = data.page.number +1;
+        this.thePageSize =data.page.size;
+        this.theTotalElements=data.page.totalElements;
+        this.products=data._embedded.products;
+      }
+    )
 }
+
+
 
 }
 
