@@ -6,11 +6,16 @@ import {HttpClientModule}  from  '@angular/common/http';
 import { ProductService } from './service/product.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {Routes , RouterModule  } from '@angular/router';
+import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
+import { SearchComponent } from './components/search/search.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 // import {Routes} from "@angular/router";
 
 
 const routes : Routes = [
-  {path: "category/:id" , component : ProductListComponent},
+  {path: "products/:id", component: ProductDetailsComponent},
+  {path: "search/:keyword", component: ProductListComponent},
+  {path: "category/:id/:name" , component : ProductListComponent},
   {path: "category" , component : ProductListComponent},
   {path: "products" , component: ProductListComponent},
   {path: "", redirectTo: "/products", pathMatch: "full"},
@@ -20,7 +25,10 @@ const routes : Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductCategoryMenuComponent,
+    SearchComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
