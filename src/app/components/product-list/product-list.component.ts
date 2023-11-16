@@ -16,7 +16,7 @@ export class ProductListComponent {
   searchMode : boolean = false;
 
   thePageNumber : number= 1;
-  thePageSize: number = 10;
+  thePageSize: number = 5;
   theTotalElements : number = 0;
 
 
@@ -93,7 +93,11 @@ handleListProduct() {
     )
 }
 
-
+updatePageSize(pageSize: string) {
+this.thePageSize = +pageSize;
+this.thePageNumber=1;
+this.listProduct();
 
 }
 
+}
