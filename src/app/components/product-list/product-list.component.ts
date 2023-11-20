@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem } from 'src/app/common/cart-item';
 import { Product } from 'src/app/common/product';
-import { ProductService } from 'src/app/service/product.service';
+import { CartService } from 'src/app/services/cart-service.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -10,10 +12,13 @@ import { ProductService } from 'src/app/service/product.service';
 })
 export class ProductListComponent {
 
+
   currentCategoryId : number = 1;
   previousCategoryId: number =1;
   currentCategoryName: string = "";
   searchMode : boolean = false;
+
+  previousKeyword : string="";
 
   thePageNumber : number= 1;
   thePageSize: number = 5;
@@ -24,7 +29,8 @@ export class ProductListComponent {
   products: Product[] =[]; 
  
 
-  constructor(private productService: ProductService,private activeRoute: ActivatedRoute) { }
+  constructor(private productService: ProductService,private activeRoute: ActivatedRoute,
+    private cartService: CartService) { }
 
   ngOnInit() {
    this.activeRoute.paramMap.subscribe(() =>
@@ -49,11 +55,14 @@ handleSearchProduct() {
 
   const theKeyword = this.activeRoute.snapshot.paramMap.get('keyword')!;
 
-  this.productService.searchForProducts(theKeyword).subscribe(
-    data => {
-      this.products = data;
-    }
-  )
+  if(this.previousKeyword!=theKeyword){
+    this.thePageNumber=1;
+  }
+
+  this.productService.searchProductsPaginate(this.thePageNumber-1,
+     this.thePageSize, 
+     theKeyword)
+     .subscribe(this.processResult());
 
 }
 
@@ -83,14 +92,7 @@ handleListProduct() {
 
   this.previousCategoryId = this.currentCategoryId;
 
-    this.productService.getProductListPaginate(this.thePageNumber-1, this.thePageSize, this.currentCategoryId).subscribe(
-      (data) => {
-        this.thePageNumber = data.page.number +1;
-        this.thePageSize =data.page.size;
-        this.theTotalElements=data.page.totalElements;
-        this.products=data._embedded.products;
-      }
-    )
+    this.productService.getProductListPaginate(this.thePageNumber-1, this.thePageSize, this.currentCategoryId).subscribe(this.processResult()   )
 }
 
 updatePageSize(pageSize: string) {
@@ -100,4 +102,23 @@ this.listProduct();
 
 }
 
+ processResult() {
+  return (data: any)  => {
+    this.thePageNumber = data.page.number +1;
+    this.thePageSize =data.page.size;
+    this.theTotalElements=data.page.totalElements;
+    this.products=data._embedded.products;
+  }
+
 }
+
+addProductToCart(tempProduct: Product) {
+ console.log(tempProduct)
+
+ const theCartItem = new CartItem(tempProduct);
+ 
+ this.cartService.addtoCart(theCartItem);
+  }
+}
+
+

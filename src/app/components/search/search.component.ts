@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import { ProductService } from 'src/app/service/product.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-search',
