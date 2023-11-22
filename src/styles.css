@@ -17,7 +17,7 @@ body{
     font-weight:400;
     font-size:16px;
     line-height:1.625;
-    color:#666;
+    color:#3b3232;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale
 }
@@ -378,7 +378,7 @@ input.au-input.au-input-xl{
 }
 
 .navbar-sidebar .navbar-list li a:hover{
-    color:#0da8e4
+    color:#24353b
 }
 
 /* 
@@ -514,7 +514,7 @@ input.au-input.au-input-xl{
     background:#fff
 }
 .main-content.page-m{
-    padding:10% 15%!important
+    padding:10% 30% 10% 5%;
 }
 
 /* 

@@ -6,8 +6,7 @@ import { Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class CartService {
-
-  constructor() { }
+   constructor() { }
 
   public cartItems: CartItem[] = [];
 
@@ -50,6 +49,26 @@ export class CartService {
 
     this.totalPrice.next(totalPrice);
     this.totalQuantity.next(totalQuantity);
+  }
+
+  decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--;
+
+    if(theCartItem.quantity ===0)
+    {
+        this.removeItem(theCartItem);
+    }
+    else
+    this.computeCartTotal();
+  }
+  removeItem(theCartItem: CartItem) {
+    const itemIndex = this.cartItems.findIndex(
+      tempItem => tempItem.id == theCartItem.id
+    );
+    if(itemIndex>-1) 
+    this.cartItems.splice(itemIndex, 1);
+
+    this.computeCartTotal();
   }
 
 }

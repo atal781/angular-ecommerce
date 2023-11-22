@@ -9,7 +9,6 @@ export class CartItem {
     public quantity!:number;
 
     constructor(product : Product){
-
         this.id =product.id;
         this.name=product.name;
         this.imageUrl=product.imageUrl;
